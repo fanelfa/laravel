@@ -14,15 +14,13 @@
     </style>
 </head>
 <body>
-    <form action="/processEditName" enctype="multipart/form-data" method="POST">
-        <p>
-            <label for="photo">
-                <input type="file" name="photo" id="photo">
-            </label>
-        </p>
-        <button>Upload</button>
-        {{ csrf_field() }}
-    </form>
+    
+    @foreach($gambar as $value)
+        <img width="40%" height="40%" src="{{ asset('/storage/'. $value->nama_file) }}">
+    @endforeach
+
+    <br/>
+    <a href="/">Upload Lagi?</a>
 
 </body>
 </html>

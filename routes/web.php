@@ -12,11 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('upload');
 });
 
 use Illuminate\Http\Request;
-use App\Gambar;
 
 Route::post('process', function (Request $request) {
     $path = $request->file('photo')->store('photos');
@@ -24,23 +23,8 @@ Route::post('process', function (Request $request) {
     dd($path);
 });
 
-Route::post('processEditName', function (Request $request) {
-    $tambahGambar = new Gambar();
-    
-    // cache the file
-    $file = $request->file('photo');
+Route::post('/upload', 'UploadFile\\FileController@upload')->name('upload');
 
-    // generate a new filename. getClientOriginalExtension() for the file extension
-    $filename = 'profile-photo-' . time() . '.' . $file->getClientOriginalExtension();
+Route::get('/download', 'UploadFile\\FileController@download')->name('download');
 
-    // save to storage/app/photos as the new $filename
-    $file->storeAs('photos', $filename);
-    // dd($filename);
-    $tambahGambar->nama_file = (string)$filename;
-    
-    $tambahGambar->save();
-    dd($tambahGambar);
-    
-    // dd($path);
-
-});
+Route::resource('/fotografer', 'FotograferController');
